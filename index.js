@@ -1,6 +1,6 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
-const createSVG = require("./Utility/createSVG.js"); //this is where the SVG will be written to
+const (Circle, Triangle, Square) = require("./lib/shapes");
 
 function run () {
     inquirer.prompt(questions).then((responses) => {
