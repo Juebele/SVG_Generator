@@ -1,5 +1,5 @@
 const fs = require('fs');
-const inquirer = require('inquirer');
+
 const {Circle, Triangle, Square} = require("./lib/shapes");
 
 class svg{
@@ -18,6 +18,8 @@ class svg{
     }
 }
 
+import('inquirer').then((inquirer) => {
+    
 const questions = [
     {
         type: 'input',
@@ -99,6 +101,8 @@ async function run() {
 }
 
 run();
+
+})
 
 // function run () {
 //     inquirer.prompt(questions).then((responses) => {
