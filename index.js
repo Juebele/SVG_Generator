@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 
 const {Circle, Triangle, Square} = require("./lib/shapes");
 
@@ -18,7 +18,20 @@ class svg{
     }
 }
 
+function start () {
+
 import('inquirer').then((inquirer) => {
+
+    inquirer.createPromptModule(questions).then((responses) => {
+        console.log("Writing SVG file");
+        writeSVG("./examples/example.SVG", createSVG({ ...responses}))
+        .then(() => {
+            console.log("SVG file written successfully.");
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    });
     
 const questions = [
     {
@@ -40,7 +53,7 @@ const questions = [
     {
         type: 'input',
         name: 'shapeColor',
-        messge: 'enter a color for the background',
+        message: 'enter a color for the background',
     },
 ];
 
@@ -60,9 +73,9 @@ async function run() {
         let svg_file = 'logo.svg';
 
     const answers = await inquirer.createPromptModule(questions);
-        let userText =  '';
-        if (answers.text.length > 0 && answers.text.length <= 3) {
-            userText = answers.text;
+        let imageText =  '';
+        if (answers.imageText.length > 0 && answers.imageText.length <= 3) {
+            imageText = answers.text;
         } else {
             console.log('Too many or too few characters!')
             return;
@@ -103,6 +116,9 @@ async function run() {
 run();
 
 })
+};
+
+start();
 
 // function run () {
 //     inquirer.prompt(questions).then((responses) => {
