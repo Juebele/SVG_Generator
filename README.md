@@ -10,4 +10,5 @@ I made this project to help me generate simple logos for my projects
 This takes user input in the CLI and uses it to generate a custom SVG file. Just use node index.js in the terminal to run the application and fill in the prompts. The CLI will not accept more than 3 letters and at least one letter is required. When finished, the SVG file will be available in the "examples" folder. Open this file in the browser to see the image.
 ## License
 [mit](https://choosealicense.com/licenses/mit/)
-## Collaborators
+## References
+I referenced this [video](https://www.youtube.com/watch?v=GJYMcLus3v0) by Thomas Calle to help me understand how this project should be built. This was especially helpful for understanding the syntax of the SVG file.
