@@ -1,123 +1,126 @@
 const fs = require("fs");
 
-const {Circle, Triangle, Square} = require("./lib/shapes");
+const inquirer = require("inquirer")
 
-class svg{
-    constructor(){
+const { Circle, Triangle, Square } = require("./lib/shapes");
+
+class svg {
+    constructor() {
         this.textElement = ''
         this.shapeElement = ''
     }
-    render(){
+    render() {
         return `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="300" height="200">${this.shapeElement}${this.textElement}</svg>`
     }
-    setText (text,color){
+    setText(text, color) {
         this.textElement = `text x="150" y="150" font-size="75" fill="${color}">${text}</text>`
     }
-    setShape (shape){
+    setShape(shape) {
         this.shapeElement = shape.render()
     }
 }
 
-function start () {
+function start() {
 
-import('inquirer').then((inquirer) => {
 
-    inquirer.createPromptModule(questions).then((responses) => {
-        console.log("Writing SVG file");
-        writeSVG("./examples/example.SVG", createSVG({ ...responses}))
-        .then(() => {
-            console.log("SVG file written successfully.");
-        })
-        .catch((err) => {
-            console.log(err);
+        const questions = [
+            {
+                type: 'input',
+                name: 'imageText',
+                message: 'Enter three characters',
+            },
+            {
+                type: 'input',
+                name: 'textColor',
+                message: 'enter a color for the text',
+            },
+            {
+                type: 'list',
+                name: 'shape',
+                message: 'select a background shape',
+                choices: ['Circle', 'Triangle', 'Square'],
+            },
+            {
+                type: 'input',
+                name: 'shapeColor',
+                message: 'enter a color for the background',
+            },
+        ];
+
+        inquirer.prompt(questions).then((responses) => {
+            console.log("Writing SVG file");
+            fs.promises.writeFile("./examples/example.SVG", createSVG({ ...responses }))
+                .then(() => {
+                    console.log("SVG file written successfully.");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         });
-    });
-    
-const questions = [
-    {
-        type: 'input',
-        name: 'imageText',
-        message: 'Enter three characters',
-    },
-    {
-        type: 'input',
-        name: 'textColor',
-        message: 'enter a color for the text',
-    },
-    {
-        type: 'list',
-        name: 'shape',
-        message: 'select a background shape',
-        choives: ['Circle', 'Triangle', 'square'],
-    },
-    {
-        type: 'input',
-        name: 'shapeColor',
-        message: 'enter a color for the background',
-    },
-];
 
-function createImage(fileName, data) {
-    console.log(`Writing ${data} to ${fileName}`)
-    FileSystem.createImage(fileName, data, function(err) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log('SVG image generated!');
-    });
-}
+        // function createImage(fileName, data) {
+        //     console.log(`Writing ${data} to ${fileName}`)
+        //     FileSystem.createImage(fileName, data, function (err) {
+        //         if (err) {
+        //             return console.log(err);
+        //         }
+        //         console.log('SVG image generated!');
+        //     });
+        // }
 
-async function run() {
-    console.log('Running');
-        let svgString = '';
-        let svg_file = 'logo.svg';
+        
+    };
+    function createSVG(answers) {
+        console.log('Running');
 
-    const answers = await inquirer.createPromptModule(questions);
-        let imageText =  '';
+
+        let imageText = '';
         if (answers.imageText.length > 0 && answers.imageText.length <= 3) {
-            imageText = answers.text;
+            imageText = answers.imageText;
         } else {
             console.log('Too many or too few characters!')
             return;
         }
-        console.log(`You entered ${userText}`);
+        console.log(`You entered ${imageText}`);
 
-        textColor = answers['textColor'];
+        let textColor = answers['textColor'];
         console.log(`Your text will be ${textColor}`);
 
-        shape = answers.shape;
+        let shape = answers.shape;
         console.log(`You chose ${shape} as your shape`);
 
-        shapeColor = answers['shapeColor'];
+        let shapeColor = answers['shapeColor'];
         console.log(`Your shape will be ${shapeColor}`);
 
-        let shape;
         if (shape === 'Circle') {
             shape = new Circle;
             console.log('You selected a circle');
+        } else if (shape === 'Triangle') {
+            shape = new Triangle;
+            console.log('You selected a triangle')
+        } else if (shape === 'Square') {
+            shape = new Square;
         } else {
             console.log('That is not not a valid shape!');
         }
         shape.setColor(shapeColor);
 
-        let svg = new SVG();
-        svg.setTextElement(text, textColor);
-        svg.setShapeElement(shape);
-        svgString = svg.render();
-
-        console.log(`${svgString}`);
+        // let svg = new SVG();
+        // svg.setTextElement(text, textColor);
+        // svg.setShapeElement(shape);
 
         console.log(`Shape complete`);
 
-        createImage(svg_file, svgString);
+        return `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
 
-}
+        ${shape.render ()}
+      
+        <text x="150" y="125" font-size="60" text-anchor="middle" fill="${textColor}">${imageText}</text>
+      
+      </svg>`;
 
-run();
-
-})
-};
-
+    }
+    
 start();
 
 // function run () {
